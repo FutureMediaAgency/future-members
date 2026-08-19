@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>التحقق من العضوية | Future Members</title>
+<style>
+body{font-family:Arial;background:#f4f6f8;color:#17324d;margin:0}.verify{max-width:600px;margin:35px auto;background:#fff;padding:30px;border-radius:22px;box-shadow:0 10px 35px #0001}.brand{font-size:25px;font-weight:800}.gold{color:#c9a227}.status{display:inline-block;padding:9px 16px;border-radius:30px;font-weight:700;margin:15px 0}.active{background:#d9ead3;color:#245b2a}.other{background:#f4cccc;color:#7a1f1f}.row{display:flex;justify-content:space-between;gap:20px;padding:14px 0;border-bottom:1px solid #eee}.qr{display:block;width:190px;height:190px;margin:22px auto}.btn{display:block;text-align:center;background:#c9a227;color:#17324d;padding:13px;border-radius:10px;font-weight:800;margin-top:15px}.note{text-align:center;color:#667085}
+</style></head>
+<body><div class="verify">
+<div class="brand">FUTURE <span class="gold">MEMBERS</span></div>
+<p>صفحة التحقق الرسمية من العضوية</p>
+{% if member.status == "نشطة" %}<span class="status active">✓ عضوية نشطة</span>{% else %}<span class="status other">الحالة: {{ member.status }}</span>{% endif %}
+<div class="row"><b>الاسم</b><span>{{ member.full_name }}</span></div>
+<div class="row"><b>رقم العضوية</b><span>{{ member.membership_number }}</span></div>
+<div class="row"><b>الفئة</b><span>{{ member.tier }}</span></div>
+<div class="row"><b>تاريخ الإصدار</b><span>{{ member.issue_date }}</span></div>
+<div class="row"><b>تاريخ الانتهاء</b><span>{{ member.expiry_date }}</span></div>
+<img class="qr" src="{% url 'member_qr' member.membership_number %}" alt="QR">
+<a class="btn" href="{% url 'member_qr' member.membership_number %}" target="_blank">فتح QR بحجم مستقل</a>
+<p class="note">نصنع الأثر - نبدع المستقبل</p></div></body></html>
