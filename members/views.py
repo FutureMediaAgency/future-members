@@ -32,3 +32,21 @@ def member_qr(request, membership_number):
     member = get_object_or_404(Member, membership_number=membership_number)
     verify_url = request.build_absolute_uri(f"/verify/{member.membership_number}/")
     return HttpResponse(make_qr_svg(verify_url), content_type="image/svg+xml")
+def dashboard(request):
+    total = Member.objects.count()
+    active = Member.objects.filter(status="نشطة").count()
+    pending = Member.objects.filter(status="قيد المراجعة").count()
+    expiring = Member.objects.filter(status="قريبة الانتهاء").count()
+    expired = Member.objects.filter(status="منتهية").count()
+
+    return render(
+        request,
+        "members/dashboard.html",
+        {
+            "total": total,
+            "active": active,
+            "pending": pending,
+            "expiring": expiring,
+            "expired": expired,
+        },
+    )
