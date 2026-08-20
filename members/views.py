@@ -39,6 +39,8 @@ def dashboard(request):
     expiring = Member.objects.filter(status="قريبة الانتهاء").count()
     expired = Member.objects.filter(status="منتهية").count()
 
+    recent_members = Member.objects.order_by("-created_at")[:10]
+
     return render(
         request,
         "members/dashboard.html",
@@ -48,5 +50,6 @@ def dashboard(request):
             "pending": pending,
             "expiring": expiring,
             "expired": expired,
+            "recent_members": recent_members,
         },
     )

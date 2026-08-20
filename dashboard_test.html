@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Future Members - Dashboard</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        header {
+            background: #111;
+            color: #d4af37;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,.08);
+        }
+
+        .card h2 {
+            font-size: 36px;
+            margin: 10px 0;
+            color: #111;
+        }
+
+        .card p {
+            margin: 0;
+            color: #666;
+        }
+
+        .actions {
+            margin-top: 35px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+<div class="recent-members">
+
+    <h2>آخر الأعضاء المسجلين</h2>
+
+    
+
+    <div class="members-table">
+
+        <div class="table-header">
+            <span>رقم العضوية</span>
+            <span>الاسم</span>
+            <span>النوع</span>
+            <span>الحالة</span>
+            <span>الإجراء</span>
+        </div>
+
+        
+
+        <div class="member-row">
+
+            <span>FM-2026-0002</span>
+
+            <span>Ali Altay Naser Omer</span>
+
+            <span>سفير فيوتشر</span>
+
+            <span>نشطة</span>
+
+            <span>
+                <a href="/verify/FM-2026-0002/">
+                    عرض
+                </a>
+            </span>
+
+        </div>
+
+        
+
+        <div class="member-row">
+
+            <span>FM-2026-0001</span>
+
+            <span>Ali Altay Naser Omer</span>
+
+            <span>سفير فيوتشر</span>
+
+            <span>نشطة</span>
+
+            <span>
+                <a href="/verify/FM-2026-0001/">
+                    عرض
+                </a>
+            </span>
+
+        </div>
+
+        
+
+    </div>
+
+    
+
+</div>
+        .button {
+            display: inline-block;
+            padding: 14px 25px;
+            background: #111;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .button.gold {
+            background: #d4af37;
+            color: #111;
+        }
+    </.recent-members {
+    margin-top: 40px;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.recent-members h2 {
+    margin-top: 0;
+}
+
+.members-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table-header,
+.member-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1.5fr 1fr 1fr .7fr;
+    gap: 10px;
+    padding: 15px 10px;
+    align-items: center;
+}
+
+.table-header {
+    background: #111;
+    color: white;
+    border-radius: 8px;
+}
+
+.member-row {
+    border-bottom: 1px solid #eee;
+}
+
+.member-row a {
+    color: #b08a00;
+    text-decoration: none;
+    font-weight: bold;
+}style>
+</head>
+
+<body>
+
+<header>
+    <h1>FUTURE MEMBERS</h1>
+    <p>لوحة إدارة العضوية</p>
+</header>
+
+<div class="container">
+
+    <div class="cards">
+
+        <div class="card">
+            <p>إجمالي الأعضاء</p>
+            <h2>2</h2>
+        </div>
+
+        <div class="card">
+            <p>العضويات النشطة</p>
+            <h2>2</h2>
+        </div>
+
+        <div class="card">
+            <p>قيد المراجعة</p>
+            <h2>0</h2>
+        </div>
+
+        <div class="card">
+            <p>قريبة الانتهاء</p>
+            <h2>0</h2>
+        </div>
+
+        <div class="card">
+            <p>منتهية</p>
+            <h2>0</h2>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <a class="button gold" href="/register/">
+            + إضافة عضو
+        </a>
+
+        <a class="button" href="/admin/members/member/">
+            إدارة الأعضاء
+        </a>
+
+        <a class="button" href="/verify/FM-2026-0001/">
+            التحقق من عضوية
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+

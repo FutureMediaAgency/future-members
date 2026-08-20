@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,52 +8,52 @@
     <title>Future Members - Dashboard</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            background: #f4f4f4;
             color: #222;
         }
 
         header {
             background: #111;
             color: #d4af37;
-            padding: 25px;
+            padding: 25px 15px;
             text-align: center;
         }
 
         header h1 {
             margin: 0;
+            font-size: 28px;
         }
 
         header p {
-            color: white;
+            color: #fff;
+            margin: 8px 0 0;
         }
 
         .container {
             max-width: 1100px;
-            margin: 30px auto;
-            padding: 20px;
+            margin: auto;
+            padding: 25px 15px;
         }
 
         .cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 15px;
         }
 
         .card {
-            background: white;
-            padding: 25px;
+            background: #fff;
+            padding: 22px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,.08);
-        }
-
-        .card h2 {
-            font-size: 36px;
-            margin: 10px 0;
-            color: #111;
+            box-shadow: 0 3px 12px rgba(0,0,0,.08);
         }
 
         .card p {
@@ -60,26 +61,76 @@
             color: #666;
         }
 
+        .card h2 {
+            margin: 10px 0 0;
+            font-size: 35px;
+        }
+
         .actions {
-            margin-top: 35px;
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
             justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
         }
 
         .button {
             display: inline-block;
-            padding: 14px 25px;
+            padding: 13px 20px;
             background: #111;
             color: white;
             text-decoration: none;
             border-radius: 8px;
+            font-weight: bold;
         }
 
-        .button.gold {
+        .gold {
             background: #d4af37;
             color: #111;
+        }
+
+        .recent {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.08);
+        }
+
+        .recent h2 {
+            margin-top: 0;
+        }
+
+        .member {
+            padding: 15px 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .member:last-child {
+            border-bottom: 0;
+        }
+
+        .member strong {
+            color: #111;
+        }
+
+        .member a {
+            color: #a17b00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .empty {
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -135,6 +186,48 @@
         <a class="button" href="/verify/FM-2026-0001/">
             التحقق من عضوية
         </a>
+
+    </div>
+
+    <div class="recent">
+
+        <h2>آخر الأعضاء المسجلين</h2>
+
+        {% if recent_members %}
+
+            {% for member in recent_members %}
+
+                <div class="member">
+
+                    <strong>
+                        {{ member.membership_number }}
+                    </strong>
+
+                    <br>
+
+                    {{ member.full_name }}
+
+                    <br>
+
+                    {{ member.tier }} — {{ member.status }}
+
+                    <br>
+
+                    <a href="{% url 'verify' member.membership_number %}">
+                        عرض بيانات العضوية
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="empty">
+                لا توجد عضويات مسجلة حتى الآن.
+            </p>
+
+        {% endif %}
 
     </div>
 
