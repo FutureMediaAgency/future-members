@@ -1,3 +1,4 @@
+from django.db import models
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -27,10 +28,15 @@ def register(request):
 def verify(request, membership_number):
     member = get_object_or_404(Member, membership_number=membership_number)
     return render(request, "members/verify.html", {"member": member})
-
 def member_qr(request, membership_number):
     member = get_object_or_404(Member, membership_number=membership_number)
-    verify_url = request.build_absolute_uri(f"/verify/{member.membership_number}/")
+
+    verify_url = f"https://cheats-voices-hash-dean.trycloudflare.com/verify/{member.membership_number}/"
+
+    return HttpResponse(
+        make_qr_svg(verify_url),
+        content_type="image/svg+xml"
+    )
     return HttpResponse(make_qr_svg(verify_url), content_type="image/svg+xml")
 def dashboard(request):
     total = Member.objects.count()
@@ -40,6 +46,18 @@ def dashboard(request):
     expired = Member.objects.filter(status="منتهية").count()
 
     recent_members = Member.objects.order_by("-created_at")[:10]
+
+    search_query = request.GET.get("q", "").strip()
+
+    search_results = Member.objects.none()
+
+    if search_query:
+        search_results = Member.objects.filter(
+            models.Q(membership_number__icontains=search_query)
+            | models.Q(full_name__icontains=search_query)
+            | models.Q(phone__icontains=search_query)
+            | models.Q(email__icontains=search_query)
+        )
 
     return render(
         request,
@@ -51,5 +69,21 @@ def dashboard(request):
             "expiring": expiring,
             "expired": expired,
             "recent_members": recent_members,
+            "search_query": search_query,
+            "search_results": search_results,
         },
     )
+def member_detail(request, membership_number):
+    member = get_object_or_404(
+        Member,
+        membership_number=membership_number
+    )
+
+    return render(
+        request,
+        "members/member_detail.html",
+        {"member": member}
+    )
+
+
+

@@ -1,0 +1,165 @@
+w{% load static %}
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ member.membership_number }} | Future Media Agency</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#050b1f; --navy-mid:#0e2a68; --blue:#1e90e8; --sky:#4fc3f7;
+    --orange:#ff8a1e; --amber:#ffc233; --glass:rgba(255,255,255,0.06);
+    --glass-brd:rgba(255,255,255,0.14); --muted:rgba(255,255,255,0.6);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    min-height:100vh;
+    background:radial-gradient(circle at 10% 10%, rgba(30,144,232,.35), transparent 45%),
+      radial-gradient(circle at 90% 90%, rgba(255,138,30,.28), transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(14,42,104,.6), transparent 60%), var(--navy-deep);
+    display:flex; align-items:center; justify-content:center;
+    padding:32px 16px; font-family:'Tajawal', sans-serif; overflow-x:hidden;
+  }
+  .blob{ position:fixed; border-radius:50%; filter:blur(80px); opacity:.45; z-index:0; animation:drift 15s ease-in-out infinite; }
+  .blob.b1{width:360px;height:360px; background:var(--blue); top:-100px; left:-100px;}
+  .blob.b2{width:300px;height:300px; background:var(--orange); bottom:-70px; right:-70px; animation-delay:-5s;}
+  @keyframes drift{ 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(18px,-22px) scale(1.07);} }
+  @media (prefers-reduced-motion: reduce){ .blob{animation:none;} }
+  .card{ position:relative; z-index:1; width:100%; max-width:400px; border-radius:28px; padding:2px;
+    background:linear-gradient(135deg, var(--sky), var(--blue) 35%, var(--navy-mid) 55%, var(--orange) 85%, var(--amber));
+    box-shadow:0 30px 70px -20px rgba(10,26,69,.7), 0 10px 30px -10px rgba(0,0,0,.5); }
+  .card-inner{ border-radius:26px; background:linear-gradient(165deg, rgba(6,14,38,.97), rgba(10,22,55,.94) 45%, rgba(5,11,30,.98));
+    backdrop-filter:blur(18px); padding:26px 26px 24px; position:relative; overflow:hidden; }
+  .card-inner::before{ content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 100% 0%, rgba(255,138,30,.18), transparent 55%); pointer-events:none; }
+  .top-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; position:relative; z-index:1; }
+  .eyebrow{ font-family:'Cairo',sans-serif; font-weight:600; font-size:13px; color:var(--muted); }
+  .brand-logo{ display:flex; align-items:center; gap:10px; direction:ltr; }
+  .brand-logo img{ width:52px; height:52px; object-fit:contain; filter:drop-shadow(0 4px 14px rgba(30,144,232,.5)); }
+  .brand-logo .txt .name{ font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:19px;
+    background:linear-gradient(90deg, var(--sky), var(--amber)); -webkit-background-clip:text; background-clip:text; color:transparent; line-height:1.1; }
+  .brand-logo .txt .sub{ font-family:'Space Grotesk', sans-serif; font-size:9px; letter-spacing:2.5px; color:var(--muted); margin-top:2px; }
+  .profile-row{ display:flex; align-items:center; gap:16px; margin-bottom:20px; position:relative; z-index:1; }
+  .avatar{ width:64px; height:64px; border-radius:18px; flex-shrink:0; overflow:hidden;
+    background:linear-gradient(135deg, var(--blue), var(--orange));
+    display:flex; align-items:center; justify-content:center; box-shadow:0 8px 20px -6px rgba(30,144,232,.6); }
+  .avatar img{ width:100%; height:100%; object-fit:cover; }
+  .avatar svg{ width:32px; height:32px; fill:#fff; opacity:.95; }
+  .who .full-name{ font-family:'Cairo', sans-serif; font-weight:800; font-size:19px; color:#fff; }
+  .who .role{ font-family:'Cairo', sans-serif; font-weight:700; font-size:14px;
+    background:linear-gradient(90deg, var(--amber), var(--orange)); -webkit-background-clip:text; background-clip:text; color:transparent; margin-top:2px; }
+  .who .id{ font-family:'Space Grotesk', sans-serif; font-size:12px; color:var(--muted); margin-top:6px; direction:ltr; display:inline-block; }
+  .status{ display:inline-flex; align-items:center; gap:6px; font-family:'Cairo',sans-serif; font-weight:700; font-size:12px;
+    padding:6px 14px; border-radius:999px; margin-bottom:22px; position:relative; z-index:1; }
+  .status.active{ background:rgba(34,197,94,.13); border:1px solid rgba(74,222,128,.4); color:#4ade80; }
+  .status.pending{ background:rgba(250,204,21,.13); border:1px solid rgba(250,204,21,.4); color:#facc15; }
+  .status.warning{ background:rgba(251,146,60,.13); border:1px solid rgba(251,146,60,.4); color:#fb923c; }
+  .status.inactive{ background:rgba(248,113,113,.13); border:1px solid rgba(248,113,113,.4); color:#f87171; }
+  .status .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; box-shadow:0 0 8px currentColor; }
+  .info{ position:relative; z-index:1; }
+  .info-row{ display:flex; justify-content:space-between; align-items:center; padding:11px 0; border-bottom:1px solid rgba(255,255,255,.08); gap:12px; }
+  .info-row:last-child{ border-bottom:none; }
+  .info-row .label{ font-family:'Cairo',sans-serif; font-size:11.5px; color:var(--muted); white-space:nowrap; }
+  .info-row .value{ font-family:'Space Grotesk',sans-serif; font-size:13.5px; color:#fff; font-weight:500; direction:ltr; text-align:left; overflow:hidden; text-overflow:ellipsis; }
+  .verify{ margin-top:22px; text-align:center; position:relative; z-index:1; }
+  .verify .title{ font-family:'Cairo',sans-serif; font-weight:700; font-size:14px;
+    background:linear-gradient(90deg, var(--sky), var(--amber)); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:4px; }
+  .verify .hint{ font-size:11px; color:var(--muted); margin-bottom:14px; }
+  .qr-wrap{ width:108px; height:108px; margin:0 auto 10px; background:#fff; border-radius:14px;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 10px 24px -8px rgba(0,0,0,.5); }
+  .qr-wrap img{ width:92px; height:92px; }
+  .verify .code{ font-family:'Space Grotesk',sans-serif; font-size:12px; color:var(--muted); direction:ltr; }
+  .footer{ margin-top:22px; padding-top:16px; border-top:1px solid rgba(255,255,255,.08); text-align:center; position:relative; z-index:1; }
+  .footer .tagline{ font-family:'Cairo',sans-serif; font-weight:700; font-size:12.5px;
+    background:linear-gradient(90deg, var(--orange), var(--amber)); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:4px; }
+  .footer .disclaimer{ font-size:10.5px; color:rgba(255,255,255,.4); }
+  .actions{ display:flex; gap:10px; margin-top:18px; max-width:400px; width:100%; position:relative; z-index:1; }
+  .btn{ flex:1; padding:13px; border-radius:14px; border:none; font-family:'Cairo',sans-serif; font-weight:700; font-size:13.5px; cursor:pointer; }
+  .btn:focus-visible{ outline:2px solid var(--sky); outline-offset:2px; }
+  .btn-ghost{ background:var(--glass); border:1px solid var(--glass-brd); color:#fff; }
+  .btn-primary{ background:linear-gradient(90deg, var(--blue), var(--orange), var(--amber)); color:#0a1a45; font-weight:800; box-shadow:0 10px 24px -10px rgba(255,138,30,.6); }
+  .wrap-col{ display:flex; flex-direction:column; align-items:center; width:100%; }
+  @media print{ .actions{display:none;} body{background:#050b1f;} }
+</style>
+</head>
+<body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+
+  <div class="wrap-col">
+    <div class="card">
+      <div class="card-inner">
+
+        <div class="top-row">
+          <div class="eyebrow">بطاقة<br>العضوية</div>
+          <div class="brand-logo">
+            <div class="txt">
+              <div class="name">FUTURE</div>
+              <div class="sub">MEDIA AGENCY</div>
+            </div>
+            <img src="{% static 'members/img/logo.png' %}" alt="Future Media Agency logo">
+          </div>
+        </div>
+
+        <div class="profile-row">
+          <div class="avatar">
+            {% if member.photo %}
+              <img src="{{ member.photo.url }}" alt="{{ member.full_name }}">
+            {% else %}
+              <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.5c-3.3 0-9.8 1.6-9.8 4.9v2.4h19.6v-2.4c0-3.3-6.5-4.9-9.8-4.9z"/></svg>
+            {% endif %}
+          </div>
+          <div class="who">
+            <div class="full-name">{{ member.full_name }}</div>
+            <div class="role">{{ member.tier }}</div>
+            <div class="id">{{ member.membership_number }}</div>
+          </div>
+        </div>
+
+        <div class="status
+          {% if member.status == 'نشطة' %}active
+          {% elif member.status == 'قيد المراجعة' %}pending
+          {% elif member.status == 'قريبة الانتهاء' %}warning
+          {% else %}inactive{% endif %}">
+          <span class="dot"></span> {{ member.status }}
+        </div>
+
+        <div class="info">
+          <div class="info-row"><span class="label">المهنة</span><span class="value">{{ member.profession|default:"—" }}</span></div>
+          <div class="info-row"><span class="label">الهاتف</span><span class="value">{{ member.phone|default:"—" }}</span></div>
+          <div class="info-row"><span class="label">البريد الإلكتروني</span><span class="value">{{ member.email|default:"—" }}</span></div>
+<div class="info-row"><span class="label">تاريخ الإصدار</span><span class="value">{{ member.issue_date|date:"Y/m/d" }}</span></div>
+<div class="info-row"><span class="label">تاريخ الانتهاء</span><span class="value">{{ member.expiry_date|date:"Y/m/d" }}</span></div>        </div>
+<div class="qr-box" style="background:#ffffff; padding:12px; border-radius:16px; display:inline-flex;">
+
+    <img
+        src="{% url 'member_qr' member.membership_number %}"
+        alt="QR Code"
+        style="width:150px; height:150px; display:block;">
+
+</div>
+</div>
+
+<div class="verify-number">
+    {{ member.membership_number }}
+</div>
+        <div class="footer">
+          <div class="tagline">نصنع الأثر - نبدع المستقبل</div>
+          <div class="disclaimer">عضوية رسمية صادرة من Future Media Agency</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="actions">
+      <a href="{% url 'dashboard' %}" class="btn btn-ghost" style="text-decoration:none; text-align:center; display:flex; align-items:center; justify-content:center;">← العودة للبحث</a>
+      <button class="btn btn-primary" onclick="window.print()">🖶 طباعة البطاقة</button>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+

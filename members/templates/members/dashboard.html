@@ -131,7 +131,72 @@
             .button {
                 text-align: center;
             }
-        }
+.search-box {
+    background: #fff;
+    padding: 25px;
+    margin: 25px 0;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+.search-box h2 {
+    margin-top: 0;
+}
+
+.search-box form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    direction: rtl;
+}
+
+.search-box button {
+    padding: 14px 25px;
+    border: 0;
+    border-radius: 8px;
+    background: #d4af37;
+    color: #111;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.search-results {
+    margin-top: 20px;
+}
+
+.search-member {
+    padding: 15px 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.search-member strong {
+    font-size: 18px;
+}
+
+.search-member a {
+    display: inline-block;
+    margin-top: 8px;
+    color: #a17b00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .search-box form {
+        flex-direction: column;
+    }
+
+    .search-box button {
+        width: 100%;
+    }
+}  }
     </style>
 </head>
 
@@ -172,7 +237,70 @@
         </div>
 
     </div>
+<div class="search-box">
 
+    <h2>🔎 البحث عن عضو</h2>
+
+    <form method="get" action="/dashboard/">
+
+        <input
+            type="text"
+            name="q"
+            value="{{ search_query }}"
+            placeholder="رقم العضوية أو اسم العضو أو الهاتف أو البريد الإلكتروني"
+        >
+
+        <button type="submit">
+            بحث
+        </button>
+
+    </form>
+
+    {% if search_query %}
+
+        <div class="search-results">
+
+            <h3>نتائج البحث عن: {{ search_query }}</h3>
+
+            {% if search_results %}
+
+                {% for member in search_results %}
+
+                    <div class="search-member">
+
+                        <strong>
+                            {{ member.membership_number }}
+                        </strong>
+
+                        <br>
+
+                        {{ member.full_name }}
+
+                        <br>
+
+                        {{ member.tier }} — {{ member.status }}
+
+                        <br>
+
+                        <a href="{% url 'verify' member.membership_number %}">
+                            عرض بيانات العضوية
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>لم يتم العثور على عضو مطابق للبحث.</p>
+
+            {% endif %}
+
+        </div>
+
+    {% endif %}
+
+</div>
     <div class="actions">
 
         <a class="button gold" href="/register/">
@@ -213,10 +341,9 @@
 
                     <br>
 
-                    <a href="{% url 'verify' member.membership_number %}">
-                        عرض بيانات العضوية
-                    </a>
-
+<a href="{% url 'member_detail' member.membership_number %}">
+    عرض بيانات العضوية
+</a>
                 </div>
 
             {% endfor %}
@@ -235,3 +362,5 @@
 
 </body>
 </html>
+
+
